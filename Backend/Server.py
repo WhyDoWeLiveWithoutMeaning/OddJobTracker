@@ -1,4 +1,4 @@
-from quart import Quart, jsonify
+from quart import Quart, jsonify, render_template, redirect, request
 
 from Communication import Database
 from Objects import UserAlreadyExists
@@ -9,12 +9,18 @@ db = Database('test.db')
 
 @app.route('/')
 async def index():
-    return jsonify({'message': 'Hello World'})
+    return await render_template(
+        'index.html',
+        people=db.get_people()
+    )
 
-@app.route('/add/person/<first_name>/<last_name>')
-async def hola(first_name, last_name):
+@app.route('/add/person')
+async def hola():
+    first_name = request.args.get('fname')
+    last_name = request.args.get('lname')
     try:
         db.add_person(first_name, last_name)
+        return redirect('/')
         return jsonify({'message': 'Added ' + first_name + ' ' + last_name})
     except UserAlreadyExists:
         return jsonify({"error" : "this user already exists"}), 409
@@ -25,4 +31,4 @@ async def get(first_name, last_name):
 
 if __name__ == '__main__':
     db.create_table()
-    app.run()
+    app.run(port=5500, debug=True)

@@ -18,6 +18,10 @@ class Database:
         self.c.execute("CREATE TABLE IF NOT EXISTS completed (person INTEGER, job TEXT, amount REAL, date TEXT)") # Create table for completed jobs
         self.conn.commit()
 
+    def get_people(self):
+        self.c.execute("SELECT * FROM people")
+        return [{"name" : " ".join([i[1], i[2]]), "id": i[0]} for i in self.c.fetchall()]
+
     def add_person(self, first_name: str, last_name: str, amount: float = None) -> None:
         self.c.execute("SELECT * FROM people WHERE first = ? AND last = ?", (first_name, last_name))
         if self.c.fetchone():

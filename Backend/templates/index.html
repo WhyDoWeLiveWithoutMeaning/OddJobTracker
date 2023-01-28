@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Odd Job Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div id="people">
+            <h1>People</h1>
+            <ul class="click-list">
+                {% for person in people %}
+                    <li>{{ person["name"] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="jobs">
+            <h1>Jobs</h1>
+        </div>
+    </div>
+    <div>
+        <form action="/add/person">
+            <label for="fname">First name:</label>
+            <input type="text" id="fname" name="fname" value="First"><br>
+            <label for="lname">Last name:</label>
+            <input type="text" id="lname" name="lname" value="Last">
+            <input type="submit" value="Add Person">
+        </form>
+    </div>
+</body>
+</html>
