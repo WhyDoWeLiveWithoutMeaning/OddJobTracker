@@ -31,4 +31,4 @@ async def get(first_name, last_name):
 
 if __name__ == '__main__':
     db.create_table()
-    app.run(port=5500, debug=True)
+    app.run(host="1.29.20.150", port=5500, debug=True)
